@@ -1,0 +1,134 @@
+---
+title: "Loops and Functions (HW 6)"
+author: "Katie Clouse"
+date: "2025-03-27"
+output:
+  pdf_document:
+   
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#### Reading in the data
+```{r}
+ec50.data <- read.csv("C:/Users/katie/Downloads/EC50_all.csv")
+library(ggplot2)
+install.packages("drc", repos = "https://cran.r-project.org")
+library("drc")
+library(tidyverse)
+```
+#### Examples of functions notes
+```{r}
+# str() #allows you to see structure 
+# (5*(degree_f - 32)/9)#how to find Celsius 
+(5*(32 - 32)/9)
+(5*(36 - 32)/9)
+(5*(39 - 32)/9)
+(5*(40 - 32)/9)
+(5*(42 - 32)/9)
+```
+#### Creating a syntax
+```{r}
+#f_temp is what we are going to input into the function
+F_to_C <- function(f_temp){
+  celsius <- (5*(f_temp - 32)/9)
+  return(celsius)
+}
+# we wrote this function so that the resulting value will be celsius. This will happen for the data points that have hte f_temp value  
+# wehn you run it, it won't do anything bc you are setting this as a function
+
+F_to_C(32)
+F_to_C(80)
+
+# the function F_to_c is the same thing as the function. We are putting in the f_temp value and we are getting a celsius value in return. This value (celsius) must be the same as what you are trying naming the function as. So if you named the output celsius, then this must be what the name is in the return brackets 
+```
+#### Iterations
+```{r}
+# helps prevent copy and paste errors 
+# iterations function in base R
+rep("A", 3) # repeats A 3 times
+rep(c("A", "B"),10)
+
+
+rep(c(1,2,5,3), 4, each = 5) #takes each number and repeats each number seperately 5 times and then it completes that pattern 5 times. 
+
+1:7
+seq(from = 1, to = 7) #this is the same function at 1:7
+seq(from = 0, to = 10, by = 2) #this counts to 10 from 0 by two 
+
+rep(seq(from = 0, to = 10, by = 2), times = 3, each = 2) #this goes through the pattern 00224466881010 3 times
+
+#seq_along()# allows you to generate sequence of numbers based on character vector 
+
+LETTERS #the alphabet
+seq_along(LETTERS) #this allows you to go letter by letter, which corresponds to a certain number. This is useful for when you have get into for loop and need to reference character vector by nuumber and replace it with a value so you can subset a data frame 
+```
+#### The for loop
+```{r}
+# whatever language youre coding in , this loop has a cetain algorithm. It sets up an iteration so you tell the code to evaluate values 1-10. It will check if the sequence over and see if the sequence is over and will go through 1 all the way up to 10. 
+
+for (i in 1:10){ #for each value of i (which is 1-10), it is going to multiply that value by 2
+  (i*2)
+  print(i*2)
+}
+#this will print to the console values 1 through 10 multiplied by 2
+# you start out with "for" and parentheses. You define the iteration within these parentheses. 
+#Then you have the word "in" and 1 through 10 (or whatever numbers you need). 
+#This is setting i equal to one through 10. 
+#Then you open with curly brackets and press enter and put whatever you need in the iteration. The output of this is multiplying 1 through 10 by 2. 
+
+for (i in -30:100){
+  result <- F_to_C(i)
+  print(result)
+} #you are multiplying the values -30 to 100 by the celsius formula and then you're result is what the temp would be in celsius 
+# looping the values basically means that you are running them through the code in the curly brackets 
+#the problem with these values is that they are not saved so you cannot plot them 
+```
+#### Initializing and r object
+```{r}
+#you need to type out what you want to cal it and set it equal to null 
+
+celcius.df <- NULL#this allows you to have a blank object so you can use it in the future
+
+for (i in -30:100){
+  result <- data.frame(F_to_C(i), i) 
+  print(result)
+}
+#this allows you to create a data frame that will be 2 columns that contains result of each function and i which will be the Fahrenheit temp. It will start w the frst number and substitute it everywhere there is an i. It will be a one row data frame
+
+celsius.df <- NULL
+for (i in -30:100){
+  result <- data.frame(F_to_C(i), i) 
+  celcius.df <- rbind.data.frame(celcius.df, result)
+}
+#the first iteration, -30, gets plugged into the iteration i. then a one row data frame will be created called result and this will be rowbind and create a new row onto the celsius .df dataframe. then it will go to -29 and take the previous result and rowbind the next iteration of the result on to the data frame until we reach 100. 
+#the result will be the numbers -30 to 100 and they will all have gone through the equation to get that value translated to celsius 
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```
+
